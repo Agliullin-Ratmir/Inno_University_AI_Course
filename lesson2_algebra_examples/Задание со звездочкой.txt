@@ -1,0 +1,9 @@
+Stable diffusion:
+links:https://habr.com/ru/articles/693298/
+https://arxiv.org/pdf/2112.10752
+https://openaccess.thecvf.com/content/ICCV2023/papers/Li_Q-Diffusion_Quantizing_Diffusion_Models_ICCV_2023_paper.pdf
+
+Какие веса и смещения используются в слоях: 256X256, 512X512( page 7 here: https://openaccess.thecvf.com/content/ICCV2023/papers/Li_Q-Diffusion_Quantizing_Diffusion_Models_ICCV_2023_paper.pdf)
+Какие функции активации применяются: softmax
+Какие матрицы входов и выходов участвуют в передаче данных между слоями? (https://arxiv.org/pdf/2112.10752, страница 4 в конце)
+Каким образом модель преобразует входной вектор в выход (опишите как минимум три последовательных слоя, включая тип слоя и операции) UNet +ResNET
