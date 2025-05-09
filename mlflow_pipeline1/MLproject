@@ -1,0 +1,13 @@
+name: multistep
+
+conda_env: conda.yaml
+
+entry_points:
+  download:
+    command: "python3 ./download.py"
+
+  train:
+    command: "python3 ./train.py"
+
+  main:
+    command: "python3 ./main.py"
