@@ -1,15 +1,18 @@
+
 import mlflow
 from mlflow.models import infer_signature
 
 import pandas as pd
+import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 
-X = open("X.txt")
-y = open("Y.txt")
-
+X = np.loadtxt("/home/ratmir/Desktop/all/AI university/AI_COURSE_HOMEWORK/mlflow_pipeline1/X.txt")
+y = np.loadtxt("/home/ratmir/Desktop/all/AI university/AI_COURSE_HOMEWORK/mlflow_pipeline1/Y.txt")
 # Split the data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42

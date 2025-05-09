@@ -1,13 +1,14 @@
-name: multistep
+name: mlflow_example
 
 conda_env: conda.yaml
 
 entry_points:
+
   download:
-    command: "python3 ./download.py"
+    command: "python3 ./mlflow_pipeline1/download.py"
 
   train:
-    command: "python3 ./train.py"
+    command: "python3 ./mlflow_pipeline1/train.py"
 
   main:
-    command: "python3 ./main.py"
+    command: "python3 main.py"
