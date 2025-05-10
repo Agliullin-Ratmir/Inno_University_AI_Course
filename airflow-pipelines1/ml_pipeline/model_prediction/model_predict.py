@@ -1,0 +1,35 @@
+import numpy as np
+from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import os
+os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
+
+X = np.loadtxt("/opt/airflow/data/X.txt")
+y = np.loadtxt("/opt/airflow/data/Y.txt")
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Define the model hyperparameters
+params = {
+    "solver": "lbfgs",
+    "max_iter": 1000,
+    "multi_class": "auto",
+    "random_state": 8888,
+}
+
+# Train the model
+lr = LogisticRegression(**params)
+lr.fit(X_train, y_train)
+
+# Predict on the test set
+y_pred = lr.predict(X_test)
+
+# Calculate metrics
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Prediction: {y_pred}")
+print(f"Accuracy: {accuracy}")

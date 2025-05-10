@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 from sklearn import datasets
 from sklearn.model_selection import train_test_split
@@ -10,6 +9,6 @@ import os
 os.environ["PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION"] = "python"
 X, y = datasets.load_iris(return_X_y=True)
 print(X)
-np.savetxt("X.txt", X, delimiter=" ", fmt="%f")
+np.savetxt("/opt/airflow/data/X.txt", X, delimiter=" ", fmt="%f")
 print(y)
-np.savetxt("Y.txt", y, delimiter=" ", fmt="%f")
+np.savetxt("/opt/airflow/data/Y.txt", y, delimiter=" ", fmt="%f")
