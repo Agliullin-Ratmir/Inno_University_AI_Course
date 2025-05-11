@@ -239,15 +239,11 @@ services:
       - airflow
 
   data-loader:
-    build:
-      context: ml_pipeline/data_loader
-    image: data-loader
+    image: data_loader:staging #docker build -t data_loader . --network=host, docker tag data_loader:latest data_loader:staging
     restart: "no"
 
   model-prediction:
-    build:
-      context: ml_pipeline/model_prediction
-    image: model-prediction
+    image: model-pred:staging #docker build -t model_pred . --network=host, docker tag model_pred model_pred:staging
     restart: "no"
     
   # Required because of DockerOperator. For secure access and handling permissions.
