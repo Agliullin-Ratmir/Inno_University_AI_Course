@@ -29,7 +29,7 @@ dockerops_kwargs = {
 
 
 # Create DAG
-@dag("financial_news", start_date=days_ago(0), schedule="@daily", catchup=False)
+@dag("Innopolis", start_date=days_ago(0), schedule="@daily", catchup=False)
 def taskflow():
     # Task 1
     load_data = DockerOperator(
@@ -49,6 +49,9 @@ def taskflow():
         **dockerops_kwargs,
     )
 
+# При сборке контейнеров пока не разобрался с ошибкой: докер-компоуз не может скачать зависимости (не видит их как будто)
+# Когда по отдельности собираю докерфайлы с помощью команды --network=host, то некоторые зависимости скачиваются
+# Возможно какая-та сетевая проблема или в настройках docker-compose.
     load_data >> predict
 
 
