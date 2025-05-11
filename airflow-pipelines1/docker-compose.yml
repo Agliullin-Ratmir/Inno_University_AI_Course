@@ -239,11 +239,11 @@ services:
       - airflow
 
   data-loader:
-    image: data_loader:staging #docker build -t data_loader . --network=host, docker tag data_loader:latest data_loader:staging
+    image: docker.io/ratmir123/ai_inno:data_loader #docker build -t data_loader . --network=host, docker tag data_loader:latest ratmir123/ai_inno:data_loader, docker push ratmir123/ai_inno:data_loader
     restart: "no"
 
   model-prediction:
-    image: model-pred:staging #docker build -t model_pred . --network=host, docker tag model_pred model_pred:staging
+    image: docker.io/ratmir123/ai_inno:model-pred #docker build -t model_pred . --network=host, docker tag model_pred ratmir123/ai_inno:model_pred, docker push ratmir123/ai_inno:model_pred
     restart: "no"
     
   # Required because of DockerOperator. For secure access and handling permissions.
