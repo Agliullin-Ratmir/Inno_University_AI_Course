@@ -1,0 +1,69 @@
+
+import mysql.connector
+from mysql.connector import Error
+import time
+import pandas as pd
+from sqlalchemy import create_engine
+import sqlalchemy as sa
+
+
+def get_db_data_sql():
+    connection = None
+    try:
+        connection = mysql.connector.connect(
+            host='relational.fel.cvut.cz',
+            port=3306,
+            database='imdb_ijs',
+            user='guest',
+            password='ctu-relational'
+        )
+
+        if connection.is_connected():
+            cursor = connection.cursor()
+
+            cursor.execute("SELECT *, avg(rank) FROM movies WHERE year > 2000 AND rank != 'None' GROUP BY year ORDER BY rank DESC limit 10")
+            items = cursor.fetchall()
+
+            for item in items:
+                print(f"  - {item}")
+
+    except Error as e:
+        print(f"❌ Error while connecting to MariaDB: {e}")
+    finally:
+
+        if connection and connection.is_connected():
+            cursor.close()
+            connection.close()
+            print("🔌 MariaDB connection is closed.")
+
+def get_db_data_pandas():
+    engine = create_engine("mysql+pymysql://guest:ctu-relational@relational.fel.cvut.cz:3306/imdb_ijs")
+    try:
+      print("📊 Fetching data from MariaDB...")
+      df = pd.read_sql_table("movies", con=engine)
+
+      print(f"✅ Retrieved {len(df)} rows from movies.")
+      df.head()
+      filtered = df[df['year'] > 2000 & df['rank'] != None]
+
+      filtered = filtered.sort_values(by='rank', ascending=False).reset_index(drop=True)
+      filtered = filtered.groupby('rank')['year']
+      print(filtered.to_string(index=False))
+
+    except Exception as e:
+      print(f"❌ Error: {e}")
+    finally:
+      engine.dispose()
+
+
+
+if __name__ == "__main__":
+    start_time = time.perf_counter()
+
+    #get_db_data_sql() #2.58 seconds
+    get_db_data_pandas() # AttributeError: 'function' object has no attribute 'cursor'
+
+    end_time = time.perf_counter()
+
+    print(f"Time for sql: {end_time - start_time:.2f} seconds")
+
