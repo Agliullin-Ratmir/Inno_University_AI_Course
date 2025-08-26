@@ -1,0 +1,20 @@
+          inn           ogrn creation_date dissolution_date   age  eligible  \
+0  0100000036  1020100002394    1990-12-10       2023-04-04  21.0       1.0   
+1  0100000090  1110105000686    1992-10-06       2011-02-10  19.0       1.0   
+2  0100000237  1120105002720    1994-03-01       2012-11-23  17.0       1.0   
+3  0100000244  1090105000150    1994-06-20       2013-01-14  17.0       1.0   
+4  0100000251  1170105000152    1994-05-25       2017-01-26  17.0       1.0   
+
+  exemption_criteria  financial  filed  imputed  outlier  okved okved_section  \
+0               none        0.0    0.0      0.0      0.0  64.19             K   
+1               none        0.0    0.0      0.0      0.0   None          None   
+2               none        0.0    0.0      0.0      0.0   None          None   
+3               none        0.0    0.0      0.0      0.0   None          None   
+4               none        0.0    0.0      0.0      0.0   None          None   
+
+   okopf    okogu  okfc        oktmo  
+0  12267  1500010    42  79701000001  
+1   None     None  None         None  
+2   None     None  None         None  
+3   None     None  None         None  
+4   None     None  None         None  
