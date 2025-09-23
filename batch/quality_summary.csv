@@ -1,0 +1,8 @@
+Столбец,Полнота (%),Точность (%),Уникальность (%),IQR выбросы,Z выбросы
+customer_id,100.0,,97.3,0.0,0.0
+email,94.07,"{'total_validatable': 9407, 'valid_count': np.int64(8504), 'accuracy_percent': np.float64(90.4), 'invalid_examples': ['user8@', '@gmail.com', '@gmail.com', '@gmail.com', 'user60@']}",91.05,,
+phone,80.37,"{'total_validatable': 8037, 'valid_count': np.int64(0), 'accuracy_percent': np.float64(0.0), 'invalid_examples': [79423734972.0, 79780932287.0, 79999745294.0, 79147697582.0, 79107944665.0]}",80.36999999999999,0.0,0.0
+age,100.0,"{'total_validatable': 10000, 'valid_count': np.int64(9003), 'accuracy_percent': np.float64(90.03), 'invalid_examples': [150, 999, 150, 150, -5]}",,675.0,326.0
+registration_date,100.0,"{'total_validatable': 10000, 'valid_count': np.int64(9496), 'accuracy_percent': np.float64(94.96), 'invalid_examples': ['2026-01-07', '2026-05-12', '2026-05-19', '2026-07-21', '2026-08-27']}",,,
+purchase_amount,100.0,"{'total_validatable': 10000, 'valid_count': np.int64(9189), 'accuracy_percent': np.float64(91.89), 'invalid_examples': [-8766, -7141, -6054, -1107, -2453]}",,0.0,0.0
+status,100.0,,,,
