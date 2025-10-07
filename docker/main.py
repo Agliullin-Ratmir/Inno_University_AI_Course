@@ -6,7 +6,7 @@ app = FastAPI()
 async def get_content():
     return "pong"
 
-#docker build -t fastapi-app .
+#docker build --network host -t fastapi-app .
 
 
 #docker run -d -p 8000:8000 fastapi-app

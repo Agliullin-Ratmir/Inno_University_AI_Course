@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "my-fastapi-app"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "0.112.4"
+pydantic = "2.5.0"
+uvicorn = { version = "0.24.0", extras = ["standard"] }
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
