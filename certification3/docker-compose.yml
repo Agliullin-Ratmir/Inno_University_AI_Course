@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database Service
+  db:
+    image: postgres:15
+    container_name: credit_scoring_db
+    environment:
+      POSTGRES_DB: credit_scoring
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - cert_scoring_net_external # Use the external network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d credit_scoring"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Main FastAPI Application Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    container_name: credit_scoring_app
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - cert_scoring_net_external # Use the external network
+    # Optional: Mount the code directory for development (uncomment if needed)
+    # volumes:
+    #   - .:/app
+
+networks:
+  # Define the network as external - Docker will use an existing network
+  cert_scoring_net_external:
+    name: cert_scoring_net_custom # The name of the network created with 'docker network create'
+    external: true # Indicates that Docker should use an existing network
