@@ -9,7 +9,7 @@ def transform():
         'dbname': 'credit_scoring',
         'user': 'postgres',
         'password': 'postgres',
-        'host': 'db',
+        'host': 'localhost', # change to 'db' for using inside docker
         'port': '5432'
     }
     df = read_postgres_to_pandas_psycopg2(db_config, 'public.raw_data')
@@ -65,7 +65,7 @@ def transform():
     df_clean = df_clean.drop(columns=['id'])
 
     # Визуализация распределений
-    df.hist(bins=20, figsize=(15, 10))
+    df_clean.hist(bins=20, figsize=(15, 10))
     plt.tight_layout()
     plt.show()
 
