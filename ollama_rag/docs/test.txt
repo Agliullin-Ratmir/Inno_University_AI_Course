@@ -1,0 +1,45 @@
+ All injected beans in the class should be annotated as @MockBean in the test class.
+ The test methods should be named according to the pattern: testedClass_testedMethod_resultOfTheMethod, for example eventsExtractorService_extractEvents_success.
+ Example of the test class:
+ @RunWith(SpringRunner.class)
+ @ActiveProfiles(profiles = "test")
+ @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+ class RolesServiceTest {
+
+     @MockBean
+     private LdapTemplate ldapTemplate;
+     @MockBean
+     private ClaimsIntegrationService claimsIntegrationService;
+     @MockBean
+     private SecurityFilterChain filterChain;
+     @MockBean
+     private OpenApiConfig openApiConfig;
+     @MockBean
+     private CacheService cacheService;
+     @MockBean
+     private RedissonClient redissonClient;
+     @MockBean
+     private UsersService usersService;
+
+     @Autowired
+     private RolesService rolesService;
+
+     private static final String VALID_UUID = "123e4567-e89b-12d3-a456-426614174000";
+     private static final String VALID_USERNAME = "john_doe123";
+     private static final String INVALID_USER_ID = "invalid-id!";
+     private static final String SHORT_ROLE_NAME = "ROLE_USER";
+     private static final String FULL_ROLE_NAME = "CN=ROLE_USER,OU=Groups,OU=BCS";
+
+
+     @Test
+     void getExistingFullRoleFromLdap_shouldReturnFullRoleName_whenRoleExists() throws Exception {
+         List<String> roleEntry = List.of(FULL_ROLE_NAME);
+         when(ldapTemplate.search(anyString(), anyString(), (AttributesMapper<Object>) any()))
+                 .thenReturn(List.of(roleEntry));
+
+         String result = rolesService.getExistingFullRoleFromLdap(SHORT_ROLE_NAME);
+
+         assertEquals(FULL_ROLE_NAME, result);
+         verify(ldapTemplate).search(eq("OU=Groups,OU=BCS"), contains(SHORT_ROLE_NAME), (AttributesMapper<Object>) any());
+     }
+}
