@@ -24,7 +24,7 @@ def train():
         'dbname': 'credit_scoring',
         'user': 'postgres',
         'password': 'postgres',
-        'host': 'localhost',
+        'host': 'localhost', # change to 'db' for using inside docker
         'port': '5432'
     }
     target_col = 'seriousDlqin2yrs'
@@ -50,6 +50,7 @@ def train():
     y_pred = model.predict(X_test)
 
     # --- 4. Метрики базовой модели ---
+    grid_search_start_time = time.time()
     accuracy = accuracy_score(y_test, y_pred)
     y_test = pd.to_numeric(y_test).astype(int)
     y_pred = pd.to_numeric(y_pred).astype(int)
@@ -61,8 +62,11 @@ def train():
     print(f"Precision: {precision:.4f}")
     print(f"Recall: {recall:.4f}")
     print(f"F1-score: {f1:.4f}")
+    grid_search_time = time.time() - grid_search_start_time
+    print(f"Время LinearRegression: {grid_search_time:.2f} секунд")
     print("\n=== Отчет классификации ===")
     print(classification_report(y_test, y_pred))
+
 
     # --- 5. Анализ ошибок базовой модели ---
     # Найдем индексы, где предсказание не совпадает с истиной

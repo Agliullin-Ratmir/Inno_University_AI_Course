@@ -55,6 +55,8 @@ def transform():
     print(df_clean.head(5))
     print('types of df_clean')
     print(df_clean.dtypes)
+    print(df_clean.info())
+    print(df_clean.describe())
 
     data_tuples = [tuple(row) for row in df_clean.values]
     print(f"Type of data_tuples: {type(data_tuples)}")

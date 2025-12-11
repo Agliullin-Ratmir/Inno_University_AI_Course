@@ -23,7 +23,7 @@ def load():
         'dbname': 'credit_scoring',
         'user': 'postgres',
         'password': 'postgres',
-        'host': 'db',
+        'host': 'localhost', # change to 'db' for using inside docker
         'port': '5432'
     }
 
