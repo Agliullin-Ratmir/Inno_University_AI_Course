@@ -9,17 +9,24 @@ def prepare():
         'host': 'localhost', # change to 'db' for using inside docker
         'port': '5432'
     }
+
     df_clean = read_postgres_to_pandas_psycopg2(db_config, 'public.cleaned_data')
 
-    featured_df = df_clean.copy()
-    featured_df = featured_df.drop(columns=['seriousDlqin2yrs'])
-    featured_df = featured_df.drop(columns=['id'])
+    target = df_clean['seriousDlqin2yrs'].copy()
 
+    featured_df = df_clean.drop(columns=['seriousDlqin2yrs', 'id']).copy()
     featured_df = featured_df.apply(pd.to_numeric, errors='coerce')
+
     scaler = StandardScaler()
     featured_df_scaled = scaler.fit_transform(featured_df)
 
-    featured_df = pd.DataFrame(featured_df_scaled, columns=featured_df.columns, index=featured_df.index)
+    featured_df = pd.DataFrame(
+        featured_df_scaled,
+        columns=featured_df.columns,
+        index=featured_df.index
+    )
+
+    featured_df['seriousDlqin2yrs'] = target
 
     print(featured_df.info())
     print(featured_df.describe())

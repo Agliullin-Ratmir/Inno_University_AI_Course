@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from util import insert_dataframe_to_postgres, read_postgres_to_pandas_psycopg2
+import pandas as pd
 
 def transform():
     db_config = {
@@ -40,8 +41,14 @@ def transform():
         else:
             df_clean[col] = df_clean[col].fillna(df_clean[col].median())
 
+
+    cols_to_exclude = ['NumberOfTime30_59DaysPastDueNotWorse', 'NumberOfTimes90DaysLate', 'NumberOfTime60_89DaysPastDueNotWorse']
+    for col in cols_to_exclude:
+        df_clean[col] = pd.to_numeric(
+        df_clean[col], errors='coerce'
+            ).astype('Int64')
     # Обработка выбросов (только для числовых колонок)
-    numeric_cols = df_clean.select_dtypes(include=[np.number]).columns
+    numeric_cols = df_clean.select_dtypes(include=[np.number], exclude=['int64']).columns
     for col in numeric_cols:
         Q1 = df_clean[col].quantile(0.25)
         Q3 = df_clean[col].quantile(0.75)
@@ -65,6 +72,9 @@ def transform():
     print(f"Type of First item in data_tuples: {type(first_item[0])}")
 
     df_clean = df_clean.drop(columns=['id'])
+    for col in cols_to_exclude:
+        count = (df_clean[col] > 0).sum()
+        print(f"Количество строк, где все указанные колонки {col} > 0: {count}")
 
     # Визуализация распределений
     df_clean.hist(bins=20, figsize=(15, 10))
