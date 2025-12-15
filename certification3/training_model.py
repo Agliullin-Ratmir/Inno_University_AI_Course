@@ -82,53 +82,94 @@ def train():
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
 
-    # --- Определение моделей и их параметров для поиска ---
+    # --- Определение моделей и их параметров для поиска без оптимизации---
+    # models = {
+    #     'RandomForest': {
+    #         'model': RandomForestClassifier(random_state=42),
+    #         'params': {
+    #             'n_estimators': [100],
+    #             'max_depth': [10],
+    #             'min_samples_split': [5],
+    #             'min_samples_leaf': [2],
+    #             'random_state': [42]
+    #         }
+    #     },
+    #     'GradientBoosting': {
+    #         'model': GradientBoostingClassifier(random_state=42),
+    #         'params': {
+    #             'n_estimators': [100],
+    #             'max_depth': [5],
+    #             'min_samples_split': [5],
+    #             'min_samples_leaf': [2],
+    #             'learning_rate': [0.1],
+    #             'random_state': [42]
+    #         }
+    #     },
+    #     'SVM': {
+    #         'model': SVC(random_state=42),
+    #         'params': {
+    #             'C': [1.0],
+    #             'kernel': ['rbf'],
+    #             'gamma': ['scale'],
+    #             'random_state': [42]
+    #         }
+    #     },
+    #     # --- Добавление нейронной сети ---
+    #     'NeuralNetwork': {
+    #         'model': MLPClassifier(random_state=42, max_iter=500), # max_iter увеличен для сходимости
+    #         'params': {
+    #             'hidden_layer_sizes': [(50, 50), (100,)], # Пример: 2 скрытых слоя по 50 нейронов или 1 слой из 100
+    #             'activation': ['relu'],
+    #             'solver': ['adam'],
+    #             'alpha': [0.0001, 0.001], # Параметр регуляризации
+    #             'learning_rate': ['adaptive'], # Адаптивная скорость обучения
+    #             'random_state': [42]
+    #         }
+    #     }
+    # }
+
+    # --- Определение моделей и их параметров для поиска с оптимизацией---
     models = {
         'RandomForest': {
             'model': RandomForestClassifier(random_state=42),
             'params': {
-                'n_estimators': [100],
-                'max_depth': [10],
-                'min_samples_split': [5],
-                'min_samples_leaf': [2],
-                'random_state': [42]
+                'n_estimators': [50, 100, 200],
+                'max_depth': [5, 10, None],
+                'min_samples_split': [2, 5, 10],
+                'min_samples_leaf': [1, 2, 4]
             }
         },
         'GradientBoosting': {
             'model': GradientBoostingClassifier(random_state=42),
             'params': {
-                'n_estimators': [100],
-                'max_depth': [5],
-                'min_samples_split': [5],
-                'min_samples_leaf': [2],
-                'learning_rate': [0.1],
-                'random_state': [42]
+                'n_estimators': [50, 100, 150],
+                'max_depth': [3, 5, 7],
+                'min_samples_split': [2, 5],
+                'min_samples_leaf': [1, 2],
+                'learning_rate': [0.01, 0.1, 0.2]
             }
         },
         'SVM': {
             'model': SVC(random_state=42),
             'params': {
-                'C': [1.0],
-                'kernel': ['rbf'],
-                'gamma': ['scale'],
-                'random_state': [42]
+                'C': [0.1, 1, 10, 100],
+                'gamma': ['scale', 'auto', 0.001, 0.01, 0.1],
+                'kernel': ['rbf', 'linear']
             }
         },
-        # --- Добавление нейронной сети ---
+
         'NeuralNetwork': {
-            'model': MLPClassifier(random_state=42, max_iter=500), # max_iter увеличен для сходимости
+            'model': MLPClassifier(random_state=42, max_iter=500),
             'params': {
-                'hidden_layer_sizes': [(50, 50), (100,)], # Пример: 2 скрытых слоя по 50 нейронов или 1 слой из 100
-                'activation': ['relu'],
-                'solver': ['adam'],
-                'alpha': [0.0001, 0.001], # Параметр регуляризации
-                'learning_rate': ['adaptive'], # Адаптивная скорость обучения
-                'random_state': [42]
+                'hidden_layer_sizes': [(50,), (100,), (50, 50), (100, 50)],
+                'activation': ['relu', 'tanh'],
+                'alpha': [0.0001, 0.001, 0.01],
+                'learning_rate_init': [0.001, 0.01]
             }
         }
     }
 
-    # --- 3. Обучение и оценка моделей ---
+
     results = {}
     for name, model_info in models.items():
         print(f"\n=== Обработка модели: {name} ===")
