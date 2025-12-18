@@ -5,6 +5,7 @@ import seaborn as sns
 from util import insert_dataframe_to_postgres, read_postgres_to_pandas_psycopg2
 import pandas as pd
 
+#  curl http://localhost:8000/transform
 def transform():
     db_config = {
         'dbname': 'credit_scoring',

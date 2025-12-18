@@ -10,6 +10,8 @@ from sqlalchemy import create_engine
 from scipy import stats
 import psycopg2
 from psycopg2.extras import execute_batch
+import joblib
+import os
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report
@@ -81,6 +83,14 @@ def train():
     scaler = StandardScaler()
     X_train_scaled = scaler.fit_transform(X_train)
     X_test_scaled = scaler.transform(X_test)
+
+    # Сохраняем scaler для использования при предсказании
+    joblib.dump(scaler, "scaler.joblib")
+    print("StandardScaler сохранён в scaler.joblib")
+
+    # Сохраняем список признаков
+    joblib.dump(list(X_train.columns), "feature_columns.joblib")
+    print("Список признаков сохранён в feature_columns.joblib")
 
     # --- Определение моделей и их параметров для поиска без оптимизации---
     # models = {
@@ -220,6 +230,10 @@ def train():
             'f1': f1,
             'grid_search_time': grid_search_time # Время поиска гиперпараметров
         }
+        # --- Сохранение модели в файл ---
+        model_filename = f"model_{name}.joblib"
+        joblib.dump(best_model, model_filename)
+        print(f"Модель {name} сохранена в {model_filename}")
 
         print(f"Лучшие параметры: {grid_search.best_params_}")
         print(f"Время GridSearchCV: {grid_search_time:.2f} секунд")
